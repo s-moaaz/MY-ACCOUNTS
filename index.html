@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Moaz's Accounts - مع تأثيرات</title>
+  <title>Moaz's Accounts - مع تأثيرات و AI</title>
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
@@ -11,17 +11,70 @@
     }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0d0d0d url('https://i.imgur.com/i9zExZ6.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: #0d0d0d;
       color: #fff;
       overflow-x: hidden;
       position: relative;
       min-height: 100vh;
       overflow-y: scroll;
       scroll-behavior: smooth;
+      margin: 0;
+      padding: 0;
+    }
+    /* خلفية فيديو */
+    #bgVideo {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      pointer-events: none;
+      filter: brightness(0.6);
+    }
+    /* صور متحركة فوق الفيديو */
+    .floating-image {
+      position: fixed;
+      z-index: -1;
+      pointer-events: none;
+      animation: floatUpDown 6s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 8px #00ffffaa);
+    }
+    .floating-image:nth-child(1) {
+      width: 150px;
+      bottom: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    .floating-image:nth-child(2) {
+      width: 120px;
+      bottom: 30%;
+      right: 12%;
+      animation-delay: 2s;
+    }
+    .floating-image:nth-child(3) {
+      width: 100px;
+      bottom: 15%;
+      left: 30%;
+      animation-delay: 1.5s;
+    }
+    .floating-image:nth-child(4) {
+      width: 130px;
+      bottom: 25%;
+      right: 30%;
+      animation-delay: 3s;
+    }
+    .floating-image:nth-child(5) {
+      width: 90px;
+      bottom: 10%;
+      left: 50%;
+      animation-delay: 4s;
+    }
+    @keyframes floatUpDown {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-20px); }
     }
 
-    /* متحركة توهج متدرج للخلفية */
     body::before {
       content: "";
       position: fixed;
@@ -35,22 +88,11 @@
       filter: blur(40px);
       mix-blend-mode: screen;
     }
-
     @keyframes pulseBg {
-      0% {
-        opacity: 0.35;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.6;
-        transform: scale(1.1);
-      }
-      100% {
-        opacity: 0.35;
-        transform: scale(1);
-      }
+      0% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+      100% { opacity: 0.35; transform: scale(1); }
     }
-
     .bg-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -58,21 +100,19 @@
       background: rgba(0, 0, 0, 0.6);
       z-index: 0;
     }
-
     .container {
       position: relative;
       z-index: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
       padding: 40px 20px 60px;
       text-align: center;
       user-select: text;
       text-shadow: 0 0 10px #00f0ffaa;
+      max-width: 400px;
+      margin: 0 auto;
     }
-
     .avatar {
       width: 180px;
       height: 180px;
@@ -100,18 +140,13 @@
       filter: drop-shadow(0 0 8px #00ffff);
     }
     @keyframes pulseGlow {
-      0% {
-        box-shadow: 0 0 20px #00f0ff, 0 0 30px #00f0ff inset;
-      }
-      100% {
-        box-shadow: 0 0 40px #00ffff, 0 0 60px #00ffff inset;
-      }
+      0% { box-shadow: 0 0 20px #00f0ff, 0 0 30px #00f0ff inset; }
+      100% { box-shadow: 0 0 40px #00ffff, 0 0 60px #00ffff inset; }
     }
     @keyframes scalePulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.03); }
     }
-
     h1 {
       font-size: 2.8rem;
       color: #00f0ff;
@@ -129,7 +164,6 @@
       0%, 100% { opacity: 0.2; filter: brightness(0.5); }
       50% { opacity: 1; filter: brightness(1.2); }
     }
-
     .quotes {
       font-size: 1.2rem;
       font-weight: 600;
@@ -142,7 +176,6 @@
       user-select: text;
       max-width: 500px;
     }
-
     .links {
       display: flex;
       flex-direction: column;
@@ -152,8 +185,9 @@
       user-select: none;
       position: relative;
       z-index: 2;
+      margin-left: auto;
+      margin-right: auto;
     }
-
     .btn {
       background: transparent;
       border: 3px solid #00f0ff;
@@ -172,7 +206,6 @@
       position: relative;
       z-index: 1;
     }
-
     .btn:hover {
       background: #00f0ff;
       color: #0d0d0d;
@@ -180,7 +213,6 @@
       transform: scale(1.1) rotate(-1deg);
       z-index: 3;
     }
-
     .btn:active {
       box-shadow: 0 0 50px #00ffff inset;
       background: #008dbf;
@@ -188,7 +220,6 @@
       transform: scale(0.92);
       transition: none;
     }
-
     .btn.disabled {
       opacity: 0.3;
       pointer-events: none;
@@ -196,14 +227,12 @@
       color: gray;
       box-shadow: none;
     }
-
     .btn.spotify {
       border-color: #1DB954;
       color: #1DB954;
       box-shadow: 0 0 20px #1DB954;
       font-weight: 800;
     }
-
     .btn.spotify:hover {
       background: #1DB954;
       color: #0d0d0d;
@@ -211,8 +240,6 @@
       transform: scale(1.12) rotate(-2deg);
       z-index: 3;
     }
-
-    /* Footer */
     footer {
       position: fixed;
       bottom: 12px;
@@ -230,8 +257,6 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       letter-spacing: 0.05em;
     }
-
-    /* Scrollbar Styling */
     ::-webkit-scrollbar {
       width: 10px;
     }
@@ -246,8 +271,6 @@
     }
     scrollbar-width: thin;
     scrollbar-color: #00f0ff #111;
-
-    /* Scroll to top button */
     #scrollTopBtn {
       position: fixed;
       bottom: 70px;
@@ -274,14 +297,99 @@
       opacity: 1;
       pointer-events: auto;
     }
+
+    /* AI Chatbox Styles */
+    #aiContainer {
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(0, 255, 255, 0.1);
+      border: 2px solid #00f0ff;
+      border-radius: 20px;
+      max-width: 400px;
+      color: #00ffff;
+      font-weight: 600;
+      text-align: right;
+      box-shadow: 0 0 15px #00f0ff;
+      user-select: text;
+    }
+    #aiContainer label {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    #aiInput {
+      width: 100%;
+      padding: 10px;
+      border-radius: 15px;
+      border: 2px solid #00f0ff;
+      background: #0d0d0d;
+      color: #00ffff;
+      font-size: 1.2rem;
+      box-shadow: inset 0 0 8px #00f0ff;
+      outline: none;
+      resize: none;
+      direction: rtl;
+    }
+    #aiInput::placeholder {
+      color: #66ffffaa;
+    }
+    #aiSubmit {
+      margin-top: 15px;
+      width: 100%;
+      background: #00f0ff;
+      border: none;
+      color: #0d0d0d;
+      font-size: 1.3rem;
+      padding: 12px;
+      border-radius: 40px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    #aiSubmit:hover {
+      background: #00cccc;
+    }
+    #aiResponse {
+      margin-top: 25px;
+      min-height: 60px;
+      font-size: 1.1rem;
+      color: #00ffffcc;
+      text-shadow: 0 0 10px #00ffff88;
+      user-select: text;
+      white-space: pre-wrap;
+      direction: rtl;
+    }
   </style>
 </head>
 <body>
+  <!-- فيديو الخلفية -->
+  <video id="bgVideo" autoplay muted loop playsinline>
+    <source src="https://www.youtube.com/embed/R51YpFBk_Vk?autoplay=1&mute=1&loop=1&playlist=R51YpFBk_Vk" type="video/mp4" />
+    متصفحك لا يدعم عرض الفيديو.
+  </video>
+
+  <!-- الصور المتحركة فوق الفيديو -->
+  <img src="https://i.imgur.com/DiJzQjz.png" alt="" class="floating-image" />
+  <img src="https://i.imgur.com/7TWGCna.png" alt="" class="floating-image" />
+  <img src="https://i.imgur.com/w0Ash8c.png" alt="" class="floating-image" />
+  <img src="https://i.imgur.com/BiMyKdh.png" alt="" class="floating-image" />
+  <img src="https://i.imgur.com/1BTokr4.png" alt="" class="floating-image" />
+
   <div class="bg-overlay"></div>
+
   <div class="container" role="main" aria-label="Moaz's social and contact accounts">
     <img src="https://i.imgur.com/U7vUZhw.png" alt="Moaz Profile Picture" class="avatar" title="Moaz Profile" tabindex="0" />
     <h1 id="typing" aria-live="polite"></h1>
     <p class="quotes" id="quotes"></p>
+
+    <button id="musicToggleBtn" class="btn" style="margin-bottom: 15px;">تشغيل الموسيقى 🎵</button>
+
+    <div style="display:flex; justify-content:center; gap:15px; margin-bottom: 40px; align-items: center;">
+      <button id="volDownBtn" class="btn" style="width:50px; padding:10px;">-</button>
+      <span id="volDisplay" style="color:#00f0ff; font-weight:700; font-size:1.3rem; min-width:40px; text-align:center;">100%</span>
+      <button id="volUpBtn" class="btn" style="width:50px; padding:10px;">+</button>
+    </div>
+
     <nav class="links" aria-label="Social and contact links">
       <a href="https://discord.com/users/785409228324077618" target="_blank" rel="noopener noreferrer" class="btn" title="Open Discord Profile">Discord</a>
       <a href="#" class="btn disabled" title="YouTube channel currently unavailable">YouTube (Unavailable)</a>
@@ -289,22 +397,44 @@
       <a href="mailto:moaazqatar2020@gmail.com" class="btn" title="Send Email to Moaz">Email Me</a>
       <a href="https://open.spotify.com/user/31hc3as2ahh7c7stnr4mge2tvg2m?si=8cb49d5556624278" target="_blank" rel="noopener noreferrer" class="btn spotify" title="Open Spotify Profile">Spotify</a>
     </nav>
+
+    <!-- AI Mini Chat -->
+    <section id="aiContainer" aria-label="AI question and answer section">
+      <label for="aiInput">اسألني أي سؤال:</label>
+      <textarea id="aiInput" rows="2" placeholder="اكتب سؤالك هنا..."></textarea>
+      <button id="aiSubmit">إرسال</button>
+      <div id="aiResponse" aria-live="polite"></div>
+    </section>
   </div>
 
   <footer>Developed by Moaaz</footer>
 
   <button id="scrollTopBtn" aria-label="Scroll to top">⬆</button>
 
+  <audio id="bgMusic" loop>
+    <source src="https://www.dropbox.com/scl/fi/aeiuzscxoq2fwb1wm0xkp/Solo-Leveling-EP-6-OST-FULL-DARK-ARIA-LV2-by-SawanoHiroyuki-nZk-_XAI-Lyrics.mp3?rlkey=tvmenuu0lqgsa9dnyniw47r88&raw=1" type="audio/mpeg" />
+  </audio>
+
   <audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_64c43ec3f0.mp3"></audio>
   <audio id="specialSound" src="https://cdn.pixabay.com/audio/2021/08/04/audio_521e6d3850.mp3"></audio>
 
   <script>
-    const text = "دي اغلب حسباتي لو مهتم ✨";
+    const text = "مرحبًا، دي كل حساباتي ✨";
     const typingElement = document.getElementById("typing");
     const quotesElement = document.getElementById("quotes");
     const scrollBtn = document.getElementById("scrollTopBtn");
     const clickSound = document.getElementById("clickSound");
     const specialSound = document.getElementById("specialSound");
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggleBtn = document.getElementById("musicToggleBtn");
+
+    const volDownBtn = document.getElementById('volDownBtn');
+    const volUpBtn = document.getElementById('volUpBtn');
+    const volDisplay = document.getElementById('volDisplay');
+
+    const aiInput = document.getElementById('aiInput');
+    const aiSubmit = document.getElementById('aiSubmit');
+    const aiResponse = document.getElementById('aiResponse');
 
     const quotes = [
       "الرجولة ليست في القوة، بل في الصمود أمام المصاعب.",
@@ -314,6 +444,21 @@
       "القوة الحقيقية تأتي من الإرادة التي لا تنكسر.",
       "النصر لا يأتي إلا لمن لا يخشى السقوط."
     ];
+
+    // أسئلة وأجوبة بسيطة للذكاء الاصطناعي المصغر
+    const aiQA = {
+      "من أنت؟": "أنا مساعد ذكي بسيط صممته لمساعدتك داخل هذه الصفحة.",
+      "ما هي حساباتك؟": "يمكنك رؤية حساباتي على Discord، Spotify، والبريد الإلكتروني في هذه الصفحة.",
+      "كيف يمكنني التواصل معك؟": "يمكنك مراسلتي عبر البريد الإلكتروني الموجود أو عبر Discord.",
+      "ما هي الموسيقى التي تشغلها؟": "هذه موسيقى من أنمي Solo Leveling OST، يمكنك التحكم في تشغيلها وصوتها.",
+      "هل تدعم اللغة العربية؟": "نعم، أتحدث العربية وأجيب على الأسئلة البسيطة المكتوبة بالعربية.",
+      "كيف أرفع الصوت؟": "استخدم زر + بجانب زر تشغيل الموسيقى لرفع مستوى الصوت.",
+      "كيف أخفض الصوت؟": "اضغط على زر - بجانب زر تشغيل الموسيقى لتخفيض الصوت.",
+      "ماذا تفعل الأزرار؟": "أزرار التشغيل، رفع الصوت، وخفض الصوت تتحكم في الموسيقى الخلفية.",
+      "هل هذا الموقع آمن؟": "نعم، هذا موقع بسيط يعرض معلوماتي ولا يجمع بيانات.",
+      "هل يمكنني استخدام هذا الموقع على الجوال؟": "نعم، الموقع متجاوب ويعمل على مختلف الأجهزة.",
+      "شكراً": "على الرحب والسعة! إذا كان لديك أي سؤال آخر، فقط اسألني."
+    };
 
     let index = 0;
     let quoteIndex = 0;
@@ -335,7 +480,32 @@
       }, 1000);
     }
 
-    // زر رجوع للأعلى
+    function updateVolDisplay() {
+      volDisplay.textContent = Math.round(bgMusic.volume * 100) + '%';
+    }
+
+    volDownBtn.onclick = () => {
+      bgMusic.volume = Math.max(0, bgMusic.volume - 0.1);
+      updateVolDisplay();
+    };
+    volUpBtn.onclick = () => {
+      bgMusic.volume = Math.min(1, bgMusic.volume + 0.1);
+      updateVolDisplay();
+    };
+
+    // AI chat handler
+    aiSubmit.onclick = () => {
+      const userQuestion = aiInput.value.trim();
+      if (!userQuestion) {
+        aiResponse.textContent = "الرجاء كتابة سؤال أولاً.";
+        return;
+      }
+      // بحث سؤال المستخدم في القاموس (aiQA)
+      const answer = aiQA[userQuestion] || "عذرًا، لم أفهم سؤالك. حاول سؤالًا آخر أو بصيغة مختلفة.";
+      aiResponse.textContent = answer;
+      aiInput.value = "";
+    };
+
     window.onscroll = () => {
       if(document.documentElement.scrollTop > 200) {
         scrollBtn.classList.add("show");
@@ -348,18 +518,32 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
+    musicToggleBtn.addEventListener('click', () => {
+      if(bgMusic.paused) {
+        bgMusic.play().then(() => {
+          musicToggleBtn.textContent = 'إيقاف الموسيقى ⏸️';
+        }).catch(() => {
+          alert('يرجى التفاعل مع الصفحة أولاً لتشغيل الموسيقى');
+        });
+      } else {
+        bgMusic.pause();
+        musicToggleBtn.textContent = 'تشغيل الموسيقى 🎵';
+      }
+    });
+
     window.onload = () => {
       typeText();
       cycleQuotes();
       setInterval(cycleQuotes, 5000);
+
+      updateVolDisplay();
 
       document.querySelectorAll(".btn").forEach((btn) => {
         btn.addEventListener("click", () => {
           clickSound.pause();
           clickSound.currentTime = 0;
           clickSound.play().catch(() => {});
-          // صوت خاص إذا زر Spotify
-          if(btn.classList.contains('spotify')) {
+          if (btn.classList.contains("spotify")) {
             specialSound.pause();
             specialSound.currentTime = 0;
             specialSound.play().catch(() => {});
