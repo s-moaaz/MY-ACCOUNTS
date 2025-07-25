@@ -1,26 +1,372 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Moaz's Accounts</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moaz's Accounts - مع تأثيرات</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      user-select: none;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0d0d0d url('https://i.imgur.com/i9zExZ6.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+    }
+
+    /* متحركة توهج متدرج للخلفية */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background:
+        radial-gradient(circle at 30% 40%, #00f0ff88, transparent 60%),
+        radial-gradient(circle at 70% 70%, #00ffff66, transparent 50%);
+      animation: pulseBg 8s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(40px);
+      mix-blend-mode: screen;
+    }
+
+    @keyframes pulseBg {
+      0% {
+        opacity: 0.35;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+      }
+      100% {
+        opacity: 0.35;
+        transform: scale(1);
+      }
+    }
+
+    .bg-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+      text-align: center;
+      user-select: text;
+      text-shadow: 0 0 10px #00f0ffaa;
+    }
+
+    .avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 3px solid #00f0ff;
+      box-shadow:
+        0 0 25px #00f0ff,
+        0 0 50px #00f0ff inset,
+        0 0 15px #00ffff;
+      margin-bottom: 25px;
+      object-fit: cover;
+      animation: pulseGlow 3s ease-in-out infinite alternate, scalePulse 6s ease-in-out infinite;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    .avatar:hover {
+      transform: scale(1.15) rotate(6deg);
+      box-shadow:
+        0 0 45px #00ffff,
+        0 0 80px #00ffff inset,
+        0 0 30px #00ffff;
+      filter: drop-shadow(0 0 8px #00ffff);
+    }
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 20px #00f0ff, 0 0 30px #00f0ff inset;
+      }
+      100% {
+        box-shadow: 0 0 40px #00ffff, 0 0 60px #00ffff inset;
+      }
+    }
+    @keyframes scalePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #00f0ff;
+      text-shadow:
+        0 0 5px #00f0ff,
+        0 0 15px #00ffff,
+        0 0 25px #00ffff,
+        0 0 40px #00ffff;
+      animation: fadeInOut 6s ease-in-out infinite;
+      margin-bottom: 10px;
+      min-height: 60px;
+      user-select: text;
+    }
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.2; filter: brightness(0.5); }
+      50% { opacity: 1; filter: brightness(1.2); }
+    }
+
+    .quotes {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 40px;
+      min-height: 50px;
+      color: #66ffffcc;
+      text-shadow: 0 0 5px #00f0ffaa;
+      font-style: italic;
+      transition: opacity 1s ease;
+      user-select: text;
+      max-width: 500px;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      width: 280px;
+      margin-bottom: 35px;
+      user-select: none;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn {
+      background: transparent;
+      border: 3px solid #00f0ff;
+      color: #00f0ff;
+      padding: 15px 32px;
+      border-radius: 40px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      text-decoration: none;
+      box-shadow: 0 0 15px #00f0ff;
+      display: inline-block;
+      font-weight: 700;
+      user-select: none;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn:hover {
+      background: #00f0ff;
+      color: #0d0d0d;
+      box-shadow: 0 0 40px #00ffff;
+      transform: scale(1.1) rotate(-1deg);
+      z-index: 3;
+    }
+
+    .btn:active {
+      box-shadow: 0 0 50px #00ffff inset;
+      background: #008dbf;
+      color: #e0e0e0;
+      transform: scale(0.92);
+      transition: none;
+    }
+
+    .btn.disabled {
+      opacity: 0.3;
+      pointer-events: none;
+      border-color: gray;
+      color: gray;
+      box-shadow: none;
+    }
+
+    .btn.spotify {
+      border-color: #1DB954;
+      color: #1DB954;
+      box-shadow: 0 0 20px #1DB954;
+      font-weight: 800;
+    }
+
+    .btn.spotify:hover {
+      background: #1DB954;
+      color: #0d0d0d;
+      box-shadow: 0 0 50px #1ed760;
+      transform: scale(1.12) rotate(-2deg);
+      z-index: 3;
+    }
+
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 12px;
+      width: 100%;
+      text-align: center;
+      font-size: 1rem;
+      color: #888;
+      font-weight: 600;
+      text-shadow: 0 0 8px #222;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+      padding: 6px 0;
+      user-select: none;
+      pointer-events: none;
+      z-index: 3;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00f0ff;
+      border-radius: 10px;
+      box-shadow: 0 0 6px #00f0ff;
+    }
+    scrollbar-width: thin;
+    scrollbar-color: #00f0ff #111;
+
+    /* Scroll to top button */
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 70px;
+      right: 30px;
+      background: #00f0ff;
+      color: #0d0d0d;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffff;
+      transition: background 0.3s ease, transform 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+    #scrollTopBtn:hover {
+      background: #00ffff;
+      transform: scale(1.1);
+    }
+    #scrollTopBtn.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
 </head>
 <body>
   <div class="bg-overlay"></div>
-  <div class="container">
-    <div class="profile">
-      <img src="82861747-4c4d-48f2-a0d6-7bb8e0e50623.png" alt="Profile" class="avatar">
-      <h1 id="typing"></h1>
-    </div>
-    <div class="links">
-      <a href="https://discord.com/users/785409228324077618" target="_blank" class="btn">Discord</a>
-      <a href="#" class="btn disabled">YouTube (Unavailable)</a>
-      <a href="#" class="btn disabled">Instagram (Not Provided)</a>
-    </div>
+  <div class="container" role="main" aria-label="Moaz's social and contact accounts">
+    <img src="https://i.imgur.com/U7vUZhw.png" alt="Moaz Profile Picture" class="avatar" title="Moaz Profile" tabindex="0" />
+    <h1 id="typing" aria-live="polite"></h1>
+    <p class="quotes" id="quotes"></p>
+    <nav class="links" aria-label="Social and contact links">
+      <a href="https://discord.com/users/785409228324077618" target="_blank" rel="noopener noreferrer" class="btn" title="Open Discord Profile">Discord</a>
+      <a href="#" class="btn disabled" title="YouTube channel currently unavailable">YouTube (Unavailable)</a>
+      <a href="#" class="btn disabled" title="Instagram not provided">Instagram (Not Provided)</a>
+      <a href="mailto:moaazqatar2020@gmail.com" class="btn" title="Send Email to Moaz">Email Me</a>
+      <a href="https://open.spotify.com/user/31hc3as2ahh7c7stnr4mge2tvg2m?si=8cb49d5556624278" target="_blank" rel="noopener noreferrer" class="btn spotify" title="Open Spotify Profile">Spotify</a>
+    </nav>
   </div>
+
+  <footer>Developed by Moaaz</footer>
+
+  <button id="scrollTopBtn" aria-label="Scroll to top">⬆</button>
+
   <audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_64c43ec3f0.mp3"></audio>
-  <audio id="bgMusic" src="https://www.youtube.com/watch?v=WczSfh3gJaU" autoplay loop></audio>
+  <audio id="specialSound" src="https://cdn.pixabay.com/audio/2021/08/04/audio_521e6d3850.mp3"></audio>
+
+  <script>
+    const text = "دي اغلب حسباتي لو مهتم ✨";
+    const typingElement = document.getElementById("typing");
+    const quotesElement = document.getElementById("quotes");
+    const scrollBtn = document.getElementById("scrollTopBtn");
+    const clickSound = document.getElementById("clickSound");
+    const specialSound = document.getElementById("specialSound");
+
+    const quotes = [
+      "الرجولة ليست في القوة، بل في الصمود أمام المصاعب.",
+      "البطل الحقيقي هو من يقاتل رغم الألم.",
+      "في قلب المعركة يولد العزم والإصرار.",
+      "لا تستسلم مهما كانت التحديات صعبة.",
+      "القوة الحقيقية تأتي من الإرادة التي لا تنكسر.",
+      "النصر لا يأتي إلا لمن لا يخشى السقوط."
+    ];
+
+    let index = 0;
+    let quoteIndex = 0;
+
+    function typeText() {
+      if (index < text.length) {
+        typingElement.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeText, 100);
+      }
+    }
+
+    function cycleQuotes() {
+      quotesElement.style.opacity = 0;
+      setTimeout(() => {
+        quotesElement.textContent = quotes[quoteIndex];
+        quotesElement.style.opacity = 1;
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+      }, 1000);
+    }
+
+    // زر رجوع للأعلى
+    window.onscroll = () => {
+      if(document.documentElement.scrollTop > 200) {
+        scrollBtn.classList.add("show");
+      } else {
+        scrollBtn.classList.remove("show");
+      }
+    };
+
+    scrollBtn.onclick = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    window.onload = () => {
+      typeText();
+      cycleQuotes();
+      setInterval(cycleQuotes, 5000);
+
+      document.querySelectorAll(".btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          clickSound.pause();
+          clickSound.currentTime = 0;
+          clickSound.play().catch(() => {});
+          // صوت خاص إذا زر Spotify
+          if(btn.classList.contains('spotify')) {
+            specialSound.pause();
+            specialSound.currentTime = 0;
+            specialSound.play().catch(() => {});
+          }
+        });
+      });
+    };
+  </script>
 </body>
 </html>
